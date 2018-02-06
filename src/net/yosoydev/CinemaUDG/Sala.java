@@ -45,22 +45,28 @@ public class Sala {
         return this.obtenerAsientosDisponibles() > 0;
     }
     
-    public boolean asignarAsientos(Cliente[] personas) {
-        int asignados = 0;
+    public boolean asignarAsientos(Cliente cliente) {
+        int ocupados = 0;
+        System.out.println("");
+        System.out.println("Asignando asientos en "+this.nombre);
+        System.out.println("Boletos a asignar: " + cliente.obtenerNumeroDeAsientos());
         for(int i = 0; i < this.filas; i++) {
             for(int j = 0; j < this.columnas; j++) {
                 if(this.asientos[i][j] == 0) {
-                   if(asignados >= (personas.length-1)) {
-                       return true;
-                   }
-                   this.asientos[i][j] = 1;
-                   personas[asignados].asignarAsiento(obtenerLetra(i)+""+(j+1));
-                   personas[asignados].asignarSala(this);
-                   asignados++;
-                   this.asientosOcupados++;
+                    if(ocupados >= cliente.obtenerNumeroDeAsientos()) {
+                        return true;
+                    }
+                    this.asientos[i][j] = 1; // marcamos como ocupado el asiento en la simulación
+                    cliente.asignarAsiento(obtenerLetra(i)+(j+1));
+                    this.asientosOcupados++;
+                    ocupados++;
+                    System.out.println("Boleto "+obtenerLetra(i)+(j+1)+" asginado.");
                 }
             }
         }
+        System.out.println("Fin de asignacion.");
+        System.out.println("Boletos asignados: "+ocupados);
+        System.out.println("");
         return false;
     }
     
